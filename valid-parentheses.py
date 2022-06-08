@@ -8,8 +8,11 @@ class Solution:
         }
         
         for c in s:
-            if c in parensMap and len(stack) > 0 and stack[-1] == parensMap[c]:
-                stack.pop()
+            if c in parensMap: #if closing 
+                if stack and stack[-1] == parensMap[c]:
+                    stack.pop()
+                else:
+                    return False
             else:
                 stack.append(c)
         return len(stack) == 0
