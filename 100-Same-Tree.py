@@ -5,20 +5,24 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        res = True
         
-        def dfs(node):
-            if not node:
-                return (True, 0)
+        def dfs(node1, node2):
+            nonlocal res
+            if not node1 and not node2:
+                return
             
-            res_l = dfs(node.left)
-            res_r = dfs(node.right)
+            if not node1 or not node2:
+                res = False
+                return
+
+            if node1.val != node2.val:
+                res = False
+                return
+
+            dfs(node1.left, node2.left)
+            dfs(node1.right, node2.right)
             
-            h = 1 + max(res_l[1], res_r[1])
-            
-            if res_l[0] == False or res_r[0] == False or abs(res_l[1] - res_r[1]) > 1:
-                return (False, h)
-            else:
-                return(True, h)
-            
-        return dfs(root)[0]
+        dfs(p, q)
+        return res
